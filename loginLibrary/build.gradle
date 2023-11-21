@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
+    id 'maven-publish'
 }
 
 android {
@@ -33,6 +34,31 @@ android {
         viewBinding = true
     }
 }
+
+publishing {
+    publications {
+        aar(MavenPublication) {
+            groupId = 'com.github.Ikey22'
+            artifactId = 'loginlibrary'
+            version = '1.0.0'
+
+            from components.findByName('release')
+        }
+    }
+
+    repositories {
+        maven {
+            url = uri("https://maven.pkg.jetbrains.space/my/repo/maven")
+            credentials {
+                // Your repository credentials, if needed
+                username = project.findProperty("gpr.user") ?: System.getenv("USERNAME_GPR_TOKEN")
+                password = project.findProperty("gpr.token") ?: System.getenv("TOKEN_GPR_USER")
+            }
+        }
+    }
+}
+
+
 
 dependencies {
 
